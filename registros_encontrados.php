@@ -6,17 +6,19 @@
         header('location: registros.php');
     }
 
-    $placa_id = $_POST['placa_id'];
     try {
         $dsn = "mysql:host=$servername;dbname=$dbname";
         $conn = new PDO($dsn, $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select data_hora from registro where veiculos_id = $placa_id";
     }
     catch (PDOException $e) {
-        echo $sql."<br>".$e->getMessage();
+        echo $e->getMessage();
     }
+
+    $placa_id = $_POST['placa_id'];
+    $sql = "SELECT data_hora FROM registro WHERE veiculos_id = $placa_id";
     $qg27 = $conn->query($sql);
+
     $conn = NULL;
 ?>
 

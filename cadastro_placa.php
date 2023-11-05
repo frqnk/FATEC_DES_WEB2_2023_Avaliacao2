@@ -6,8 +6,7 @@
         header('location: cadastro.php');
     }
 
-    $aluno = $_POST['aluno'];
-    $placa = $_POST['placa'];
+
     try {
         $dsn = "mysql:host=$servername;dbname=$dbname";
         $conn = new PDO($dsn, $username, $password);
@@ -16,13 +15,18 @@
     catch (PDOException $e) {
         echo $e->getMessage();
     }
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(!empty($_POST['nome']) and !empty($_POST['placa'])) {
-            $sql = "insert into veiculos (aluno, placa) values ('$aluno', '$placa')";
+
+    $aluno = $_POST['aluno'];
+    $placa = $_POST['placa'];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!empty($_POST['nome']) and !empty($_POST['placa'])) {
+            $sql = "INSERT INTO veiculos (aluno, placa) VALUES ('$aluno', '$placa')";
             $conn->exec($sql);
             header('location: cadastro_placa.php');
         }
     }
+
     $conn = NULL;
 ?>
 
