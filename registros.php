@@ -2,19 +2,8 @@
     require_once('header.php');
     require_once('dados_banco.php');
 
-    try {
-        $dsn = "mysql:host=$servername;dbname=$dbname";
-        $conn = new PDO($dsn, $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-
-    $sql = "SELECT * FROM veiculos";
-    $stmt = $conn->query($sql);
-
-    $conn = NULL;
+    $db = new DBConnect();
+    $stmt = $db->select_veiculos();
 ?>
 
 <!DOCTYPE html>

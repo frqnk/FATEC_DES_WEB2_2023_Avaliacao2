@@ -1,25 +1,14 @@
 <?php
-    require_once('header.php');
-    require_once('dados_banco.php');
-
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         header('location: registros.php');
     }
 
-    try {
-        $dsn = "mysql:host=$servername;dbname=$dbname";
-        $conn = new PDO($dsn, $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+    require_once('header.php');
+    require_once('dados_banco.php');
 
-    $placa_id = $_POST['placa_id'];
-    $sql = "SELECT data_hora FROM registro WHERE veiculos_id = $placa_id";
-    $qg27 = $conn->query($sql);
-
-    $conn = NULL;
+    $placa = $_POST['placa_id'];
+    $db = new DBConnect();
+    $stmt = $db->select_registros($placa);
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +40,7 @@
                 </label>
                 <br>
                 <?php
-                    while ($row = $qg27->fetch()) {
+                    while ($row = $stmt->fetch()) {
                         print $row['data_hora']."<br>";
                     }
                 ?>

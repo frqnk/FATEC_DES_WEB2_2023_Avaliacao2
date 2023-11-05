@@ -1,33 +1,17 @@
 <?php
-    require_once('header.php');
-    require_once('dados_banco.php');
-
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         header('location: cadastro.php');
+        die();
     }
 
-
-    try {
-        $dsn = "mysql:host=$servername;dbname=$dbname";
-        $conn = new PDO($dsn, $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+    require_once('header.php');
+    require_once('dados_banco.php');
 
     $aluno = $_POST['aluno'];
     $placa = $_POST['placa'];
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (!empty($_POST['nome']) and !empty($_POST['placa'])) {
-            $sql = "INSERT INTO veiculos (aluno, placa) VALUES ('$aluno', '$placa')";
-            $conn->exec($sql);
-            header('location: cadastro_placa.php');
-        }
-    }
-
-    $conn = NULL;
+    $db = new DBConnect();
+    $db->inserir_veiculo($aluno, $placa);
 ?>
 
 <!DOCTYPE html>
